@@ -1,0 +1,147 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+enum Role {
+  CLIENT
+  SPECIALIST
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  email             String             @unique
+  name              String?
+  password          String
+  role              Role               @default(CLIENT)
+  resetToken        String?
+  resetTokenExpires DateTime?
+  refreshTokens     RefreshToken[]
+  specialistProfile SpecialistProfile?
+  clientBookings    Booking[]          @relation("ClientBookings")
+  payments          Payment[]
+  chats             Chat[]             @relation("ClientChats")
+  messages          Message[]
+  notifications     Notification[]
+  reviews           Review[]
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  isRevoked Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SpecialistProfile {
+  id           Int            @id @default(autoincrement())
+  bio          String         @db.Text
+  category     String
+  price        Float
+  experience   Int
+  avatarUrl    String?
+  rating       Float          @default(0.0)
+  reviewsCount Int            @default(0)
+  userId       Int            @unique
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workingHours WorkingHours[]
+  bookings     Booking[]
+  chats        Chat[]
+  reviews      Review[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model WorkingHours {
+  id                  Int               @id @default(autoincrement())
+  dayOfWeek           Int               // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  startTime           String            // e.g. "09:00"
+  endTime             String            // e.g. "18:00"
+  isAvailable         Boolean           @default(true)
+  specialistProfileId Int
+  specialistProfile   SpecialistProfile @relation(fields: [specialistProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([specialistProfileId, dayOfWeek])
+}
+
+model Booking {
+  id                  Int               @id @default(autoincrement())
+  clientId            Int
+  client              User              @relation("ClientBookings", fields: [clientId], references: [id], onDelete: Cascade)
+  specialistProfileId Int
+  specialistProfile   SpecialistProfile @relation(fields: [specialistProfileId], references: [id], onDelete: Cascade)
+  startTime           DateTime
+  endTime             DateTime
+  status              String            @default("PENDING")
+  createdAt           DateTime          @default(now())
+  payment             Payment?
+  review              Review?
+}
+
+model Payment {
+  id              Int      @id @default(autoincrement())
+  bookingId       Int      @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  clientId        Int
+  client          User     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  amount          Float
+  currency        String   @default("usd")
+  paymentIntentId String   @unique
+  status          String   @default("PENDING") // PENDING, SUCCEEDED, FAILED
+  createdAt       DateTime @default(now())
+}
+
+model Chat {
+  id                  Int               @id @default(autoincrement())
+  clientId            Int
+  client              User              @relation("ClientChats", fields: [clientId], references: [id], onDelete: Cascade)
+  specialistProfileId Int
+  specialistProfile   SpecialistProfile @relation(fields: [specialistProfileId], references: [id], onDelete: Cascade)
+  messages            Message[]
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@unique([clientId, specialistProfileId])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chatId    Int
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  senderId  Int
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  text      String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  text      String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id                  Int               @id @default(autoincrement())
+  bookingId           Int               @unique
+  booking             Booking           @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  clientId            Int
+  client              User              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  specialistProfileId Int
+  specialistProfile   SpecialistProfile @relation(fields: [specialistProfileId], references: [id], onDelete: Cascade)
+  rating              Int
+  comment             String            @db.Text
+  createdAt           DateTime          @default(now())
+}
+
