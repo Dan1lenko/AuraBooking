@@ -80,42 +80,42 @@ export default function SpecialistBookingsPage() {
     <main className="min-h-screen bg-slate-50 p-6 md:p-12 animate-fade-in">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Navigation Tabs Bar */}
-        <div className="flex items-center justify-between bg-white border border-slate-200 px-6 py-3 rounded-xl shadow-sm">
-          <nav className="flex gap-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between bg-white border border-slate-200 p-4 md:px-6 md:py-3 rounded-xl shadow-sm gap-4">
+          <nav className="flex gap-2 md:gap-4 overflow-x-auto whitespace-nowrap scrollbar-none -mx-4 px-4 md:mx-0 md:px-0">
             <Link
               href="/dashboard/profile"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
             >
               <User className="w-4 h-4" />
               Редагувати профіль
             </Link>
             <Link
               href="/dashboard/schedule"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
             >
               <Calendar className="w-4 h-4" />
               Керувати розкладом
             </Link>
             <Link
               href="/dashboard/bookings"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg bg-blue-50 text-blue-700 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg bg-blue-50 text-blue-700 transition-colors"
             >
               <CalendarRange className="w-4 h-4" />
               Керування бронюваннями
             </Link>
             <Link
               href="/dashboard/chat"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
               Повідомлення
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-2">
             <NotificationsBell />
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-3.5 py-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600 text-xs font-semibold transition-colors cursor-pointer"
+              className="flex items-center gap-2 px-3.5 py-1.5 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600 text-xs font-semibold transition-colors cursor-pointer w-full md:w-auto justify-center"
             >
               <LogOut className="w-3.5 h-3.5" />
               Вийти

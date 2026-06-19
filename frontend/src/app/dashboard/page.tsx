@@ -96,37 +96,37 @@ export default function ClientDashboard() {
   return (
     <main className="min-h-screen bg-slate-50 p-6 md:p-12 animate-fade-in">
       <div className="max-w-5xl mx-auto space-y-8">
-        <header className="flex items-center justify-between bg-white border border-slate-200 shadow-sm rounded-2xl p-6">
+        <header className="flex flex-col md:flex-row items-stretch md:items-center justify-between bg-white border border-slate-200 shadow-sm rounded-2xl p-4 md:p-6 gap-4 animate-fade-in">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0">
               <User className="w-6 h-6" />
             </div>
-            <div>
-              <p className="text-xs text-slate-500 font-semibold uppercase">Кабінет клієнта</p>
-              <h1 className="text-2xl font-bold text-slate-900">{profile?.name || profile?.email}</h1>
+            <div className="min-w-0">
+              <p className="text-[10px] md:text-xs text-slate-500 font-semibold uppercase tracking-wider">Кабінет клієнта</p>
+              <h1 className="text-xl md:text-2xl font-bold text-slate-900 truncate">{profile?.name || profile?.email}</h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Link
               href="/specialists"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors mr-2 cursor-pointer shadow-sm"
+              className="flex-1 md:flex-initial flex items-center justify-center gap-2 px-3 md:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs md:text-sm font-semibold transition-colors cursor-pointer shadow-sm"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-3.5 h-3.5" />
               Знайти спеціаліста
             </Link>
             <Link
               href="/dashboard/chat"
-              className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-sm font-semibold transition-colors mr-2 cursor-pointer"
+              className="flex-1 md:flex-initial flex items-center justify-center gap-2 px-3 md:px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs md:text-sm font-semibold transition-colors cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-3.5 h-3.5" />
               Повідомлення
             </Link>
             <NotificationsBell />
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-sm font-semibold transition-colors cursor-pointer"
+              className="flex items-center justify-center gap-2 px-3 md:px-4 py-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs md:text-sm font-semibold transition-colors cursor-pointer w-full md:w-auto mt-2 md:mt-0"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-3.5 h-3.5" />
               Вийти
             </button>
           </div>

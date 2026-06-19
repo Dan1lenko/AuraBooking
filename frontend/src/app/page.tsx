@@ -116,18 +116,18 @@ export default async function Home() {
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased">
       {/* Navigation Header */}
       <header className="border-b border-slate-200 bg-white sticky top-0 z-40 shadow-[0_2px_15px_rgba(0,0,0,0.02)]">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-extrabold text-sm">
               A
             </div>
-            <span className="font-bold text-slate-900 tracking-tight text-lg">AuraBooking</span>
+            <span className="font-bold text-slate-900 tracking-tight text-sm md:text-lg">AuraBooking</span>
           </div>
 
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-2 md:gap-4">
             <Link
               href="/specialists"
-              className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+              className="text-xs md:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors whitespace-nowrap"
             >
               Знайти спеціалістів
             </Link>
@@ -136,7 +136,7 @@ export default async function Home() {
                 <span className="text-slate-200">|</span>
                 <Link
                   href="/dashboard"
-                  className="py-2 px-4 bg-blue-50 text-blue-600 hover:bg-blue-100 text-sm font-semibold rounded-xl transition-all"
+                  className="py-1.5 md:py-2 px-2.5 md:px-4 bg-blue-50 text-blue-600 hover:bg-blue-100 text-xs md:text-sm font-semibold rounded-xl transition-all whitespace-nowrap"
                 >
                   Особистий кабінет
                 </Link>
@@ -146,13 +146,13 @@ export default async function Home() {
                 <span className="text-slate-200">|</span>
                 <Link
                   href="/login"
-                  className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                  className="text-xs md:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
                 >
                   Увійти
                 </Link>
                 <Link
                   href="/register"
-                  className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow"
+                  className="py-1.5 md:py-2 px-2.5 md:px-4 bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-semibold rounded-xl transition-all shadow-sm hover:shadow whitespace-nowrap"
                 >
                   Почати
                 </Link>
