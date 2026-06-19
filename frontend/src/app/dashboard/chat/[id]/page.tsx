@@ -173,9 +173,9 @@ export default function ChatWindowPage() {
   );
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-slate-50 overflow-hidden">
+    <div className="flex-1 flex flex-col h-full bg-slate-50/50 overflow-hidden">
       {/* Header Bar */}
-      <header className="p-4 border-b border-slate-100 bg-white flex items-center justify-between shadow-sm">
+      <header className="p-4 border-b border-slate-100 bg-white/80 backdrop-blur-md flex items-center justify-between shadow-sm z-10">
         <div className="flex items-center gap-3">
           <NextLink
             href="/dashboard/chat"
@@ -189,23 +189,23 @@ export default function ChatWindowPage() {
               <img
                 src={partner.avatarUrl}
                 alt={partner.name}
-                className="w-10 h-10 rounded-full object-cover border border-slate-100"
+                className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-sm"
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-sm">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
                 {partner?.name?.slice(0, 2).toUpperCase() || '??'}
               </div>
             )}
             <span
               className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                partnerOnline ? 'bg-emerald-500' : 'bg-slate-300'
+                partnerOnline ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'
               }`}
             />
           </div>
 
           <div>
             <h3 className="font-bold text-slate-800 text-sm">{partner?.name || 'Loading...'}</h3>
-            <p className="text-[10px] text-slate-400 font-semibold uppercase">
+            <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">
               {partnerOnline ? 'Active now' : 'Offline'}
             </p>
           </div>
@@ -216,11 +216,14 @@ export default function ChatWindowPage() {
       {loading ? (
         <MessageSkeleton />
       ) : (
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
           {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center text-slate-400 gap-1">
-              <span className="text-xs">No messages yet.</span>
-              <span className="text-[10px]">Send a greeting to start the conversation!</span>
+            <div className="flex flex-col items-center justify-center h-full text-center text-slate-400 gap-1.5">
+              <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
+                <Send className="w-4 h-4 opacity-50" />
+              </div>
+              <span className="text-xs font-medium">No messages yet.</span>
+              <span className="text-[10px] text-slate-400">Send a greeting to start the conversation!</span>
             </div>
           ) : (
             messages.map((msg) => {
@@ -234,15 +237,15 @@ export default function ChatWindowPage() {
                   <div
                     className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm shadow-sm relative group flex flex-col ${
                       isMe
-                        ? 'bg-blue-600 text-white rounded-tr-none'
-                        : 'bg-white text-slate-800 rounded-tl-none border border-slate-100'
+                        ? 'bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-tr-none shadow-blue-500/10'
+                        : 'bg-white text-slate-800 rounded-tl-none border border-slate-200/60 shadow-slate-100/50'
                     }`}
                   >
                     {/* Message Text */}
                     <p className="leading-relaxed break-words">{msg.text}</p>
                     
                     {/* Timestamp & Read Checkmarks footer */}
-                    <div className="flex items-center gap-1 justify-end mt-1 text-[9px] self-end opacity-70">
+                    <div className={`flex items-center gap-1 justify-end mt-1.5 text-[9px] self-end ${isMe ? 'text-blue-100' : 'text-slate-400'} opacity-80`}>
                       <span>
                         {new Date(msg.createdAt).toLocaleTimeString('en-US', {
                           hour: '2-digit',
@@ -252,7 +255,7 @@ export default function ChatWindowPage() {
                       {isMe && (
                         <CheckCheck
                           className={`w-3.5 h-3.5 ${
-                            msg.isRead ? 'text-sky-300' : 'text-slate-300'
+                            msg.isRead ? 'text-sky-300' : 'text-blue-200'
                           }`}
                         />
                       )}
@@ -267,7 +270,7 @@ export default function ChatWindowPage() {
       )}
 
       {/* Input Submit form */}
-      <footer className="p-4 border-t border-slate-100 bg-white">
+      <footer className="p-4 border-t border-slate-100 bg-white/80 backdrop-blur-md">
         <form onSubmit={handleSendMessage} className="flex gap-2">
           <input
             type="text"
@@ -275,12 +278,12 @@ export default function ChatWindowPage() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             disabled={loading}
-            className="flex-1 px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 transition-all disabled:opacity-50 disabled:bg-slate-50"
+            className="flex-1 px-4 py-2 border border-slate-200/80 rounded-xl text-sm text-slate-900 placeholder-slate-400 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all disabled:opacity-50 disabled:bg-slate-50"
           />
           <button
             type="submit"
             disabled={loading || !inputText.trim()}
-            className="p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2.5 bg-gradient-to-tr from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 flex items-center justify-center"
           >
             <Send className="w-4 h-4" />
           </button>

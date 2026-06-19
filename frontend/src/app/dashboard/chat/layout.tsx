@@ -173,20 +173,20 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 flex items-center justify-center p-4 md:p-8 animate-fade-in">
-      <div className="max-w-6xl w-full h-[calc(100vh-64px)] bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden flex">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50/30 flex items-center justify-center p-4 md:p-6 lg:p-8 animate-fade-in">
+      <div className="max-w-6xl w-full h-[calc(100vh-64px)] md:h-[calc(100vh-96px)] bg-white/90 backdrop-blur-md border border-slate-200/80 shadow-xl rounded-2xl overflow-hidden flex transition-all duration-300">
         {/* Left Side Pane: Chats list */}
         <aside
-          className={`w-full lg:w-80 border-r border-slate-100 flex flex-col h-full bg-white transition-all duration-200 ${
+          className={`w-full lg:w-80 border-r border-slate-100 flex flex-col h-full bg-white/50 backdrop-blur-sm transition-all duration-200 ${
             isChatOpen ? 'hidden lg:flex' : 'flex'
           }`}
         >
           {/* Header Area */}
-          <header className="p-4 border-b border-slate-100 flex flex-col gap-3">
+          <header className="p-4 border-b border-slate-100/80 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <button
                 onClick={handleBackToDashboard}
-                className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Back
               </button>
@@ -203,16 +203,16 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
                 placeholder="Search chats..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-1.5 border border-slate-200 rounded-xl text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-600 transition-all"
+                className="w-full pl-9 pr-4 py-1.5 border border-slate-200/80 rounded-xl text-xs bg-slate-50 text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600 transition-all"
               />
             </div>
           </header>
 
           {/* Chat List Scrollable section */}
-          <div className="flex-1 overflow-y-auto divide-y divide-slate-50">
+          <div className="flex-1 overflow-y-auto divide-y divide-slate-50/50 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-12 gap-2">
-                <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+                <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
                 <span className="text-xs text-slate-400">Loading conversations...</span>
               </div>
             ) : filteredChats.length === 0 ? (
@@ -238,8 +238,8 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
                     }}
                     className={`flex items-center gap-3 p-4 text-left transition-all duration-200 cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-50/40 border-l-4 border-l-blue-600 pl-3'
-                        : 'bg-white hover:bg-slate-50'
+                        ? 'bg-blue-50/50 border-l-4 border-l-blue-600 pl-3 shadow-[inset_1px_0_0_rgba(37,99,235,0.05)]'
+                        : 'bg-transparent hover:bg-slate-50/60 hover:translate-x-0.5'
                     }`}
                   >
                     {/* Avatar with Online/Offline indicator */}
@@ -248,17 +248,17 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
                         <img
                           src={partner.avatarUrl}
                           alt={partner.name}
-                          className="w-10 h-10 rounded-full object-cover border border-slate-100"
+                          className="w-10 h-10 rounded-full object-cover border border-slate-100 shadow-sm"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold text-sm">
-                          {partner?.name?.slice(0, 2).toUpperCase()}
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+                          {partner?.name?.slice(0, 2).toUpperCase() || '??'}
                         </div>
                       )}
                       {/* Active Status indicator */}
                       <span
                         className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
-                          isOnline ? 'bg-emerald-500' : 'bg-slate-300'
+                          isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-slate-300'
                         }`}
                       />
                     </div>
@@ -275,12 +275,12 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
                       </div>
                       
                       {partner?.category && (
-                        <span className="text-[9px] text-blue-600 font-semibold uppercase tracking-wider block">
+                        <span className="text-[9px] text-blue-600 font-bold uppercase tracking-wider block mt-0.5">
                           {partner.category}
                         </span>
                       )}
 
-                      <p className={`text-xs truncate mt-0.5 ${latestMsg && chat.unreadCount > 0 ? 'text-slate-900 font-semibold' : 'text-slate-400'}`}>
+                      <p className={`text-xs truncate mt-1 ${latestMsg && chat.unreadCount > 0 ? 'text-slate-900 font-semibold' : 'text-slate-400'}`}>
                         {latestMsg ? latestMsg.text : 'No messages yet'}
                       </p>
                     </div>
@@ -300,7 +300,7 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
 
         {/* Right Side Pane: Children details container */}
         <section
-          className={`flex-1 flex flex-col h-full bg-slate-50 relative ${
+          className={`flex-1 flex flex-col h-full bg-slate-50/50 backdrop-blur-md relative ${
             isChatOpen ? 'flex' : 'hidden lg:flex'
           }`}
         >
